@@ -1,6 +1,6 @@
 # VideoINR
 
-This repository contains the official implementation for LIIF introduced in the following paper:
+This repository contains the official implementation for VideoINR introduced in the following paper:
 
 [**VideoINR: Learning Video Implicit Neural Representation
 for Continuous Space-Time Super-Resolution**](http://zeyuan-chen.com/VideoINR/)
@@ -9,7 +9,7 @@ for Continuous Space-Time Super-Resolution**](http://zeyuan-chen.com/VideoINR/)
 <br>
 CVPR 2022
 
-You can find more visual results and an introduction to VideoINR at our [project page](http://zeyuan-chen.com/VideoINR/).
+You can find more visual results and a brief introduction to VideoINR at our [project page](http://zeyuan-chen.com/VideoINR/).
 
 ## Citation
 
