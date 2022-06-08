@@ -66,3 +66,5 @@ python demo.py --space_scale 4 --time_scale 8 --data_path [YOUR_DATA_PATH]
 ```
 
 4. The output would be three folders including low-resolution images, bicubic-upsampling images, and the results of VideoINR.
+
+## Training
