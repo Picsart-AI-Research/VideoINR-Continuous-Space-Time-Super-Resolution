@@ -39,7 +39,7 @@ If you are using Anaconda, the following command can be used to build the enviro
 ```
 conda create -n videoinr
 conda activate videoinr
-conda install pytorch= torchvision torchaudio cudatoolkit=10.2 -c pytorch
+conda install pytorch=1.6 -c pytorch
 
 cd models/modules/DCNv2/
 python setup.py install
