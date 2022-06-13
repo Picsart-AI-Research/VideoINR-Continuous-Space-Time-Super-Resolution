@@ -11,6 +11,12 @@ CVPR 2022
 
 You can find more visual results and a brief introduction to VideoINR at our [project page](http://zeyuan-chen.com/VideoINR/).
 
+## Method Overview
+
+<img src="images/pipeline.png" width="800">
+
+Two consecutive input frames are concatenated and encoded as a discrete feature map. Based on the feature, the spatial and temporal implicit neural representations decode a 3D space-time coordinate to a motion flow vector. We then sample a new feature vector by warping according to the motion flow, and decode it as the RGB prediction of the query coordinate.
+
 ## Citation
 
 If you find our work useful in your research, please cite:
@@ -70,3 +76,4 @@ python demo.py --space_scale 4 --time_scale 8 --data_path [YOUR_DATA_PATH]
 4. The output would be three folders including low-resolution images, bicubic-upsampling images, and the results of VideoINR.
 
 ## Training
+Coming soon.
