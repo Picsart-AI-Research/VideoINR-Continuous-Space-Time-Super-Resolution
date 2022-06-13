@@ -29,7 +29,8 @@ If you find our work useful in your research, please cite:
 
 The code is tested in:
 - Python 3.6
-- Pytorch 1.6.0
+- Pytorch 1.4.0
+- torchvision 0.5.0
 - Cuda 10.1
 - [Deformable Convolution v2](https://arxiv.org/abs/1811.11168). Following [Zooming Slowmo](https://github.com/Mukosame/Zooming-Slow-Mo-CVPR-2020), we adopt [CharlesShang's implementation](https://github.com/CharlesShang/DCNv2) in the submodule.
 
@@ -37,10 +38,11 @@ If you are using Anaconda, the following command can be used to build the enviro
 
 
 ```
-conda create -n videoinr
+conda create -n videoinr python=3.6
 conda activate videoinr
-conda install pytorch=1.6 -c pytorch
+conda install pytorch=1.4 torchvision -c pytorch
 
+pip install opencv-python pillow tqdm
 cd models/modules/DCNv2/
 python setup.py install
 ```
