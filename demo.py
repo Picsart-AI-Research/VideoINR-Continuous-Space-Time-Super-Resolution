@@ -6,7 +6,7 @@ from PIL import Image
 from tqdm import tqdm
 
 import torch
-import models.modules.Sakuya_arch2 as Sakuya_arch
+import models.modules.Sakuya_arch as Sakuya_arch
 
 from pdb import set_trace as bp
 from data.util import imresize_np
