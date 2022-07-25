@@ -91,8 +91,6 @@ class VideoSRBaseModel(BaseModel):
         self.var_L = data['LQs'].to(self.device)
         if ('time' in data.keys()) and self.net_base == 'LIIF':
             self.times = [t_.to(self.device) for t_ in data['time']]
-        elif self.net_base == 'TMNet':
-            self.times = data['time']
         else:
             self.times = None
         if 'scale' in data.keys():
@@ -140,10 +138,6 @@ class VideoSRBaseModel(BaseModel):
                 self.fake_H = self.netG(self.var_L)
             elif self.net_base == 'LIIF':
                 self.fake_H = self.netG(self.var_L, self.times, self.scale, self.testmode)
-                # self.fake_H = self.netG(self.var_L, self.times, self.scale, test=True)
-                # self.fake_H = self.netG(self.var_L, self.times)
-            elif self.net_base == 'TMNet':
-                self.fake_H = self.netG(self.var_L, self.times)
         self.netG.train()
         if output == True:
             return self.fake_H
