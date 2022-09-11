@@ -605,6 +605,7 @@ class LunaTokis(nn.Module):
         if test == True:
             return self.decoding_test(times, scale)
         else:
+            scale = (scale[0][0], scale[1][0])
             return self.decoding(times, scale)
 
 
