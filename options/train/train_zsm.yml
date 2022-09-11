@@ -14,9 +14,9 @@ datasets:
     interval_list: [1]
     random_reverse: true #false
     border_mode: false
-    dataroot_GT: /dataset/Adobe240fps/train/
-    dataroot_LQ: /dataset/Adobe240fps/train/
-    cache_keys: data/Vimeo7_train_keys.pkl
+    dataroot_GT: /home/users/adobe240/frame/train
+    dataroot_LQ: /home/users/adobe240/frame/train
+    cache_keys: Vimeo7_train_keys.pkl
 
     N_frames: 7
     use_shuffle: true
