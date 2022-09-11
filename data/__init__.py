@@ -72,7 +72,7 @@ def collate_function(data):
     d_scale = random.uniform(2, 4) # randomly select down-sampling scale in [2, 4]
     LQ_size = 64 # fixed resolution for LQ images
     GT_size = int(np.floor(LQ_size * d_scale))
-
+    
     ### Image Cropping ###
     x = random.randint(0, max(0, 720 - GT_size))
     y = random.randint(0, max(0, 1280 - GT_size))
@@ -88,7 +88,7 @@ def collate_function(data):
     img_LQs = np.stack(img_LQ_l, axis=0)
     img_GTs = np.stack(img_GT_l, axis=0)
     # augmentation - flip, rotate
-    img_LQs, img_GTs = util.augment_a(img_LQs, img_GTs, True, True)
+    img_LQs, img_GTs = util.augment_a2(img_LQs, img_GTs, True, True)
 
     # BGR to RGB, HWC to CHW, numpy to tensor
     img_GTs = img_GTs[:, :, :, :, [2, 1, 0]]
@@ -98,4 +98,5 @@ def collate_function(data):
     img_LQs = torch.from_numpy(np.ascontiguousarray(np.transpose(img_LQs, (1, 0, 4, 2, 3)))).float()
 
     time_t = [torch.cat([time_[2][i][None] for time_ in data], dim=0) for i in range(len(data[0][2]))]
-    return {'LQs': img_LQs, 'GT': img_GTs, 'shape': (img_GTs.shape[-2], img_GTs.shape[-1]), 'time': time_t}     
+    
+    return {'LQs': img_LQs, 'GT': img_GTs, 'scale': [[img_GTs.shape[-2]], [img_GTs.shape[-1]]], 'time': time_t}     
