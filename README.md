@@ -75,17 +75,26 @@ python demo.py --space_scale 4 --time_scale 8 --data_path [YOUR_DATA_PATH]
 
 4. The output would be three folders including low-resolution images, bicubic-upsampling images, and the results of VideoINR.
 
+## Preparing Dataset
+
+We use the [Adobe240 dataset](https://www.cs.ubc.ca/labs/imager/tr/2017/DeepVideoDeblurring/) for training. 
+
+1. Download the zip file [here](https://www.cs.ubc.ca/labs/imager/tr/2017/DeepVideoDeblurring/DeepVideoDeblurring_Dataset_Original_High_FPS_Videos.zip) which contains the original high FPS videos. 
+
+2. In order to extract frames of each video to a separated folder, change `videoFolder` to where you save the extracted frames and `frameFolder` to `DATASET_PATH` in `generate_frames_from_adobe240fps.py` and run it. This would automatically split the data into train/test/val set.
+```
+python generate_frames_from_adobe240fps.py
+```
+
 ## Training
 
-1. Prepare the dataset. We use the [Adobe240 dataset](https://www.cs.ubc.ca/labs/imager/tr/2017/DeepVideoDeblurring/) for training. Download the zip file and unzip it to `DATASET_PATH`.
-
-2. Configure training settings, which can be found at options/train. The default training setting can be found at train_zsm.yml. You need to change a few lines in the config file in order to run successfully in your machine:
+1. Configure training settings, which can be found at options/train. The default training setting can be found at train_zsm.yml. You need to change a few lines in the config file in order to run successfully in your machine:
     - **name & mode (Line 12 & 13)**: As mentioned in the paper, we adopt a two-stage training strategy, so there exists two different modes for training set. `Adobe` and `Adobe_a` (refer to Line 47 in data/init.py). `Adobe` fixs the down-sampling scale to 4 while `Adobe_a` randomly samples down-sampling scales in [2, 4]. For the first stage (0 - 450000 iterations), we set the name & mode to `Adobe`. For the second stage (450000 - 600000 iterations), we set the name & mode to `Adobe_a`.
-    - **dataroot_GT & dataroot_LQ (Line 17 & 18)**: Path to the Adobe240 dataset. Set them as `DATASET_PATH` (dataroot_LQ is not used in current implementation)
+    - **dataroot_GT & dataroot_LQ (Line 17 & 18)**: Path to the Adobe240 dataset. Set them as `DATASET_PATH/train` (dataroot_LQ is not used in current implementation)
     - **models & training_state (Line 47 & 48)**: Path to where you want to save the model parameters and training state (for restart training). 
 
 
-3. Run training code. The default setting needs four RTX 2080Ti for training. Note that for applying the two-stage training strategy, you might have to run train.py twice. 
+2. Run training code. The default setting needs four RTX 2080Ti for training. Note that for applying the two-stage training strategy, you might have to run train.py twice. 
 ```
 python train.py -opt options/train/train_zsm.yml
 ```
