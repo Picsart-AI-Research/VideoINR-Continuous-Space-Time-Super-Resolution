@@ -71,7 +71,7 @@ class AdobeDataset(data.Dataset):
         else:
             cache_keys = 'Vimeo7_train_keys.pkl'
         logger.info('Using cache keys - {}.'.format(cache_keys))
-        self.paths_GT = pickle.load(open('/home/users/zeyuan_chen/Zoomin-base/datasets/meta_info/{}'.format(cache_keys), 'rb'))
+        self.paths_GT = pickle.load(open('meta_info/{}'.format(cache_keys), 'rb'))
      
         assert self.paths_GT, 'Error: GT path is empty.'
 
@@ -84,7 +84,7 @@ class AdobeDataset(data.Dataset):
         else:
             raise ValueError('Wrong data type: {}'.format(self.data_type))
         
-        with open('/home/users/zeyuan_chen/adobe240fps_folder_train.txt') as t:
+        with open('data/adobe240fps_folder_train.txt') as t:
             video_list = t.readlines()
             
         self.file_list = []
