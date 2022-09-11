@@ -71,7 +71,7 @@ class AdobeDataset(data.Dataset):
         else:
             cache_keys = 'Vimeo7_train_keys.pkl'
         logger.info('Using cache keys - {}.'.format(cache_keys))
-        self.paths_GT = pickle.load(open('/home/users/zeyuan_chen/Zoomin-base/datasets/meta_info/{}'.format(cache_keys), 'rb'))
+        self.paths_GT = pickle.load(open('meta_info/{}'.format(cache_keys), 'rb'))
      
         assert self.paths_GT, 'Error: GT path is empty.'
 
@@ -84,7 +84,7 @@ class AdobeDataset(data.Dataset):
         else:
             raise ValueError('Wrong data type: {}'.format(self.data_type))
         
-        with open('/home/users/zeyuan_chen/adobe240fps_folder_train.txt') as t:
+        with open('data/adobe240fps_folder_train.txt') as t:
             video_list = t.readlines()
             
         self.file_list = []
@@ -197,6 +197,18 @@ class AdobeDataset(data.Dataset):
         img_LQ_l = [cv2.imread(fp) for fp in img_LQop_l]
         img_GT_l = [cv2.imread(fp) for fp in img_GTop_l]
         # print("LQ: ", img_LQo_l, "GT: ", img_GTo_l)
+        width_l, height_l = int(np.floor(img_LQ_l[0].shape[1] / 8)), int(np.floor(img_LQ_l[0].shape[0] / 8))
+        width_g, height_g = int(np.floor(img_LQ_l[0].shape[1] / 2)), int(np.floor(img_LQ_l[0].shape[0] / 2))
+        if len(img_LQ_l[0].shape) == 3:
+            img_LQ_l = [img_[0:8 * height_l, 0:8 * width_l, :] for img_ in img_LQ_l]
+            img_GT_l = [img_[0:2 * height_g, 0:2 * width_g, :] for img_ in img_GT_l]
+        else:
+            img_LQ_l = [img_[0:8 * height_l, 0:8 * width_l] for img_ in img_LQ_l]
+            img_GT_l = [img_[0:2 * height_g, 0:2 * width_g] for img_ in img_GT_l]
+
+        img_LQ_l = [imresize_np(img_, 1 / 8, True) for img_ in img_LQ_l]
+        img_GT_l = [imresize_np(img_, 1 / 2, True) for img_ in img_GT_l]
+
         img_LQ_l = [img_.astype(np.float32) / 255. for img_ in img_LQ_l]
         img_GT_l = [img_.astype(np.float32) / 255. for img_ in img_GT_l]
             
@@ -207,7 +219,6 @@ class AdobeDataset(data.Dataset):
         if img_LQ_l[0].shape[2] > 3:
             img_LQ_l = [img_[:, :, :3] for img_ in img_LQ_l]
             img_GT_l = [img_[:, :, :3] for img_ in img_GT_l]
-                
                 
         # LQ_size_tuple = (3, 64, 112) if self.LR_input else (3, 256, 448)
         C, H, W = img_LQ_l[0].shape[2], img_LQ_l[0].shape[0], img_LQ_l[0].shape[1]
@@ -238,11 +249,11 @@ class AdobeDataset(data.Dataset):
         # BGR to RGB, HWC to CHW, numpy to tensor
         img_GTs = img_GTs[:, :, :, [2, 1, 0]]
         img_LQs = img_LQs[:, :, :, [2, 1, 0]]
-
+        
         img_GTs = torch.from_numpy(np.ascontiguousarray(np.transpose(img_GTs, (0, 3, 1, 2)))).float()
         img_LQs = torch.from_numpy(np.ascontiguousarray(np.transpose(img_LQs,
                                                                      (0, 3, 1, 2)))).float()
-        return {'LQs': img_LQs, 'GT': img_GTs, 'key': key, 'time': times}
+        return {'LQs': img_LQs, 'GT': img_GTs, 'key': key, 'time': times, 'scale': (img_GTs.shape[-2], img_GTs.shape[-1])}
 
     def __len__(self):
         return len(self.file_list)
