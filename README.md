@@ -99,5 +99,10 @@ python generate_frames_from_adobe240fps.py
 python train.py -opt options/train/train_zsm.yml
 ```
 
+## Additional Note
+Throughout the training process, we calculate the loss by summing distances of all pixels between prediction and ground-truth. However, this can be unreasonable for stage 2 (450000 - 600000 iterations) since the ground-truth images have different resolutions, resulting in different loss scales. Using mean distances for the loss value in stage 2 can be helpful for the final model performance. 
+
+Thank @[sichun233746](https://github.com/sichun233746) very much for his testing!
+
 ## Acknowledgments
 Our code is built on [Zooming-Slow-Mo-CVPR-2020](https://github.com/Mukosame/Zooming-Slow-Mo-CVPR-2020) and [LIIF](https://github.com/yinboc/liif). Thank the authors for sharing their codes!
