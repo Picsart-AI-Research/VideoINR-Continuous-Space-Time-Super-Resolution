@@ -48,7 +48,7 @@ conda create -n videoinr python=3.6
 conda activate videoinr
 conda install pytorch=1.4 torchvision -c pytorch
 
-pip install opencv-python pillow tqdm pyyaml
+pip install opencv-python pillow tqdm pyyaml lmdb
 cd models/modules/DCNv2/
 python setup.py install
 ```
